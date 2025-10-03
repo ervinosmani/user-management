@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { User } from "../types";
 import { fetchUsers } from "../api/users";
+import { Link } from "react-router-dom";
 
 export default function Home() {
     const [users, setUsers] = useState<User[]>([]);
@@ -39,7 +40,9 @@ export default function Home() {
                 })
                 .map((u) => (
                     <li key={u.id}>
-                        <strong>{u.name}</strong> - {u.email} - {u.company.name}
+                        <Link to={`/users/${u.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                            <strong>{u.name}</strong> - {u.email} - {u.company.name}
+                        </Link>
                     </li>
                 ))}
             </ul>
