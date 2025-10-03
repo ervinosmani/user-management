@@ -28,18 +28,20 @@ export default function AddUserForm({ onAdd }: Props) {
     }
 
     return (
-        <form onSubmit={handleSubmit} style={{ margin: "12px 0" }}>
-            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+        <form onSubmit={handleSubmit} className="my-3">
+             <div className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-2">
                 <div>
                     <input
                         placeholder="Full name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
-                        style={{ padding: 8, width: 220 }}
+                        className="w-full h-10 rounded-2xl bg-slate-800/60 border border-slate-700
+                                   px-4 text-slate-200 placeholder-slate-400
+                                   outline-none focus:ring-2 focus:ring-indigo-500/30"
                     />
                     {errors.name && (
-                        <div style={{ color: "red", fontSize: 12 }}>{errors.name}</div>
+                        <div className="text-rose-400 text-xs mt-1">{errors.name}</div>
                     )}
                 </div>
 
@@ -50,14 +52,23 @@ export default function AddUserForm({ onAdd }: Props) {
                         onChange={(e) => setEmail(e.target.value)}
                         required
                         type="email"
-                        style={{ padding: 8, width: 260 }}
+                        className="w-full h-10 rounded-2xl bg-slate-800/60 border border-slate-700
+                                   px-4 text-slate-200 placeholder-slate-400
+                                   outline-none focus:ring-2 focus:ring-indigo-500/30"
                     />
                     {errors.email && (
-                        <div style={{ color: "red", fontSize: 12 }}>{errors.email}</div>
+                        <div className="text-rose-400 text-xs mt-1">{errors.email}</div>
                     )}
                 </div>
 
-                <button type="submit" style={{ padding: "8px 12px" }}>Add</button>
+                <button 
+                    type="submit" 
+                    className="h-10 px-5 rounded-2xl bg-indigo-600 text-white
+                               hover:bg-indigo-500 transition-colors
+                               sm:self-stretch"
+                >
+                Add
+            </button>
             </div>
         </form>
     )

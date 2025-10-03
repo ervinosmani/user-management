@@ -22,14 +22,14 @@ export default function UserDetails() {
     if (!user) return <div>No user found</div>;
 
     return (
-        <div>
-            <h2>{user.name}</h2>
+        <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 sm:p-6 max-w-2xl">
+            <h2 className="text-xl font-semibold text-slate-100">{user.name}</h2>
 
-            <p><strong>Phone:</strong> {user.phone}</p>
-            <p>
-                <strong>Website:</strong>{" "}
+            <p className="mt-3 text-slate-300"><strong className="text-slate-200">Phone:</strong> {user.phone}</p>
+            <p className="mt-2 text-slate-300">
+                <strong className="text-slate-200">Website:</strong>{" "}
                 {user.website && user.website !== "_" ? (
-                    <a href={`http://${user.website}`} target="_blank" rel="noreferrer">
+                    <a href={`http://${user.website.replace(/^https?:\/\//, '')}`} target="_blank" rel="noreferrer" className="text-indigo-300 hover:text-indigo-200 underline underline-offset-2">
                         {user.website}
                     </a>
                 ) : (
@@ -37,14 +37,21 @@ export default function UserDetails() {
                 )}
             </p>
 
-            <div style={{ marginTop: 8 }}>
-                <strong>Address:</strong>
-                <div>{user.address.street}, {user.address.suite}</div>
-                <div>{user.address.city}, {user.address.zipcode}</div>
+            <div className="mt-4">
+                <strong className="text-slate-200 font-medium">Address:</strong>
+                <div className="text-slate-300">{user.address.street}, {user.address.suite}</div>
+                <div className="text-slate-300">{user.address.city}, {user.address.zipcode}</div>
             </div>
 
-            <div style={{ marginTop: 16 }}>
-                <Link to="/">Back</Link>
+            <div className="mt-6">
+                <Link 
+                    to="/" 
+                    className="inline-flex items-center rounded-2xl bg-slate-800/70 px-4 py-2
+                               text-slate-200 hover:bg-slate-700/70 transition-colors
+                               focus:outline-none focus:ring-2 focus:ring-indigo-500/30 w-full sm:w-auto"
+                >
+                    Back
+                </Link>
             </div>
         </div>
     )
