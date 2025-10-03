@@ -28,9 +28,13 @@ export default function UserDetails() {
             <p><strong>Phone:</strong> {user.phone}</p>
             <p>
                 <strong>Website:</strong>{" "}
-                <a href={`http://${user.website}`} target="_blank" rel="noreferrer">
-                    {user.website}
-                </a>
+                {user.website && user.website !== "_" ? (
+                    <a href={`http://${user.website}`} target="_blank" rel="noreferrer">
+                        {user.website}
+                    </a>
+                ) : (
+                  "_"
+                )}
             </p>
 
             <div style={{ marginTop: 8 }}>

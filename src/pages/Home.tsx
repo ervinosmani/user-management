@@ -3,9 +3,12 @@ import type { User } from "../types";
 import { fetchUsers } from "../api/users";
 import { Link } from "react-router-dom";
 import AddUserForm from "../components/AddUserForm";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { addLocal, deleteLocal, setAll, updateLocal } from "../features/usersSlice";
 
 export default function Home() {
-    const [users, setUsers] = useState<User[]>([]);
+    const users = useAppSelector((s) => s.users.items);
+    const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [query, setQuery] = useState("");
@@ -13,7 +16,7 @@ export default function Home() {
 
     useEffect(() => {
         fetchUsers()
-            .then((data) => setUsers(data))
+            .then((data) => dispatch(setAll(data)))
             .catch((e) => setError(e.message))
             .finally(() => setLoading(false));
     }, []);
@@ -31,7 +34,7 @@ export default function Home() {
             address: { street: "_", suite: "_", city: "_", zipcode: "_" },
             company: { name: "_" },
         };
-        setUsers(prev => [newUser, ...prev]);
+        dispatch(addLocal(newUser));
     }
 
     const filtered = users.filter((u) => {
@@ -72,10 +75,39 @@ export default function Home() {
             ) : (
                 <ul>
                 {filtered.map((u) => (
-                    <li key={u.id}>
-                        <Link to={`/users/${u.id}`} style={{ textDecoration: "none", color: "inherit" }}>
+                    <li key={u.id} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <Link to={`/users/${u.id}`} style={{ textDecoration: "none", color: "inherit", flex: 1 }}>
                             <strong>{u.name}</strong> - {u.email} - {u.company.name}
                         </Link>
+
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const newName = prompt("New name:", u.name)?.trim();
+                                const newEmail = prompt("New email:", u.email)?.trim();
+
+                                const changes: Partial<User> = {};
+                                if (newName && newName !== u.name) changes.name = newName;
+                                if (newEmail && newEmail !== u.email) changes.email = newEmail;
+
+                                if (Object.keys(changes).length > 0) {
+                                    dispatch(updateLocal({ id: u.id, changes }));
+                                }
+                            }}
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault();
+                                if (confirm("Delete this user?")) {
+                                    dispatch(deleteLocal({ id: u.id }));
+                                }
+                            }}
+                        >
+                            Delete
+                        </button>
                     </li>
                 ))}
             </ul>

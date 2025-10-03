@@ -35,6 +35,7 @@ export default function AddUserForm({ onAdd }: Props) {
                         placeholder="Full name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        required
                         style={{ padding: 8, width: 220 }}
                     />
                     {errors.name && (
@@ -47,6 +48,8 @@ export default function AddUserForm({ onAdd }: Props) {
                         placeholder="Email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required
+                        type="email"
                         style={{ padding: 8, width: 260 }}
                     />
                     {errors.email && (
